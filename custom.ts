@@ -99,7 +99,6 @@ namespace a4_Gate {
     /////// Fonctions /////// 
 
     function digitalWrite(io: IO, state: GPIOState) { //fonction écrire sur un pin C (0 ou 1)
-        ()
         setDigitalOutput(io)
         writeReg(0x39 + io, pins.createBufferFromArray([state]))
     }
