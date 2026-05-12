@@ -1,24 +1,34 @@
 
 > Ouvrir cette page à [https://emsrn.github.io/blocs-portail-a4/](https://emsrn.github.io/blocs-portail-a4/)
 
-## Utiliser comme extension
+## A4 Gate 
 
-Ce dépôt peut être ajouté en tant qu'**extension** dans MakeCode.
+MakeCode extension for the A4 sliding gate model based on the DFR1216 expansion board, BBC micro:bit, and different modules connected to the expansion board.
 
-* ouvrir [https://makecode.microbit.org/](https://makecode.microbit.org/)
-* cliquez sur **Nouveau projet**
-* cliquez sur **Extensions** dans le menu engrenage
-* recherchez **https://github.com/emsrn/blocs-portail-a4** et importez
+# Product page and teaching resources 
 
-## Éditer ce projet
+Product information and educational resources are available on https://www.a4.fr/wiki/index.php?title=Portail_coulissant_(BE-APORT-COUL) 
+Website : a4.fr
+Product sheet : 
 
-Éditer ce dépôt dans MakeCode.
+# Purpose 
 
-* ouvrir [https://makecode.microbit.org/](https://makecode.microbit.org/)
-* cliquez sur **Importer** puis cliquez sur **Importer l'URL **
-* collez **https://github.com/emsrn/blocs-portail-a4** et cliquez sur importer
+This extension is designed for an educational sliding gate model used in technology lessons. 
+It provides simple blocks to : 
 
-#### Métadonnées (utilisées pour la recherche, le rendu)
+# Hardware required 
+* BBC micro:bit 
+* DFR1216 expansion board
+* modules connected to the pins (see product information for wiring diagram)
 
+# API overview 
+
+//System  
+
+#License 
+
+MIT
+
+# Supported targets 
 * for PXT/microbit
 <script src="https://makecode.com/gh-pages-embed.js"></script><script>makeCodeRender("{{ site.makecode.home_url }}", "{{ site.github.owner_name }}/{{ site.github.repository_name }}");</script>
