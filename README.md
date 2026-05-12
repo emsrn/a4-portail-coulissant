@@ -33,6 +33,30 @@ It provides simple blocks to :
 * `Open/Close gate`
 * `Motion detected by PIR sensor`
 
+## Example 
+
+```typescript
+function open () {
+    while (!(a4_Gate.sensorState(LimitSwitch.Opening))) {
+        a4_Gate.gate(Gate.CW)
+    }
+    a4_Gate.gate(Gate.Stop)
+}
+function close () {
+    while (!(a4_Gate.sensorState(LimitSwitch.Closing))) {
+        a4_Gate.gate(Gate.CCW)
+    }
+    a4_Gate.gate(Gate.Stop)
+}
+basic.forever(function () {
+    if (a4_Gate.buttonStateBoolean(ButtonLocation.Ext) || a4_Gate.buttonStateBoolean(ButtonLocation.Int)) {
+        open()
+        basic.pause(3000)
+        close()
+    }
+})
+````
+
 ## License 
 
 MIT
