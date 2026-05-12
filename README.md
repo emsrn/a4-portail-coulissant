@@ -1,19 +1,24 @@
 ## A4 Gate 
 
-MakeCode extension for the **A4 sliding gate model** based on the **DFR1216 expansion board**, **BBC micro:bit**, and different modules connected to the expansion board.
+MakeCode extension for the **A4 sliding gate model** based on the **DFR1216 expansion board**, **BBC micro:bit**, and various modules connected to the expansion board.
 
 ## Product page and teaching resources 
 
 Product information and educational resources are available on https://www.a4.fr/wiki/index.php?title=Portail_coulissant_(BE-APORT-COUL) 
 
-Website : a4.fr
+Website: a4.fr
 
-Product sheet : 
+Product sheet: 
 
 ## Purpose 
 
 This extension is designed for an educational sliding gate model used in technology lessons. 
-It provides simple blocks to : 
+
+It provides simple blocks to: 
+* detect obstacle presence with IR and PIR sensors
+* read pushed buttons and limit switches modules' states
+* turn on/off the IR emitter and LED 
+* control the gate's opening and closing 
 
 ### Hardware required 
 * BBC micro:bit 
