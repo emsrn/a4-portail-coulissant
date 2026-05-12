@@ -25,7 +25,13 @@ It provides simple blocks to :
 
 ## API overview 
 
-
+* `Obstacle detected by IR`
+* `Opening/Closing limit switch on`
+* `Outside/Inside button pressed`
+* `Turn on/off IR emitter`
+* `Turn on/off light`
+* `Open/Close gate`
+* `Motion detected by PIR sensor`
 
 ## License 
 
@@ -33,4 +39,3 @@ MIT
 
 ## Supported targets 
 * for PXT/microbit
-<script src="https://makecode.com/gh-pages-embed.js"></script><script>makeCodeRender("{{ site.makecode.home_url }}", "{{ site.github.owner_name }}/{{ site.github.repository_name }}");</script>
