@@ -1,6 +1,3 @@
-
-> Ouvrir cette page à [https://emsrn.github.io/blocs-portail-a4/](https://emsrn.github.io/blocs-portail-a4/)
-
 ## A4 Gate 
 
 MakeCode extension for the **A4 sliding gate model** based on the **DFR1216 expansion board**, **BBC micro:bit**, and different modules connected to the expansion board.
