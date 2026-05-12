@@ -8,7 +8,9 @@ MakeCode extension for the **A4 sliding gate model** based on the **DFR1216 expa
 ## Product page and teaching resources 
 
 Product information and educational resources are available on https://www.a4.fr/wiki/index.php?title=Portail_coulissant_(BE-APORT-COUL) 
+
 Website : a4.fr
+
 Product sheet : 
 
 ## Purpose 
