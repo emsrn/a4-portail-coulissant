@@ -73,6 +73,7 @@ namespace a4_Gate {
 
     // cmd
     const CMD_SET_BACKGROUND_COLOR = 0x19;
+    const CMD_OF_DRAW_TEXT = 0x18;
 
     const CMD_HEADER_HIGH = 0x55;
     const CMD_HEADER_LOW = 0xaa;
@@ -142,6 +143,28 @@ namespace a4_Gate {
         let cmd = creatCommand(0x1D, 0x04);
         writeCommand(cmd, 4);
         basic.pause(1500);
+    }
+
+    //% num.min=1 num.max=255 num.defl=1
+    //% x.min=0 x.max=320 x.defl=120
+    //% y.min=0 y.max=240 y.defl=120
+    //% color.shadow="colorNumberPicker"
+    //% inlineInputMode=inline
+    //% weight=75
+    function lcdDisplayText(text: string, num: number, x: number, y: number, size: FontSize, color: number) {
+        updateString(num, x, y, text, size, color);
+    }
+
+    function updateString(id: number, x: number, y: number, str: string, fontSize: number, color: number) {
+        let len = str.length > 242 ? 242 : str.length;
+        let cmd = creatCommand(CMD_OF_DRAW_TEXT, len + 13);
+        cmd = cmd.concat([id, fontSize]).concat(data24Tobyte(color)).concat(data16Tobyte(x)).concat(data16Tobyte(y));
+        str.split("").forEach((value, index) => { cmd.push(value.charCodeAt(0)) });
+        writeCommand(cmd, len + 13);
+    }
+
+    function data16Tobyte(data: number): number[] {
+        return [(data >> 8) & 0xFF, data & 0xFF];
     }
 
     /////// BLOCKS ///////
@@ -247,17 +270,17 @@ namespace a4_Gate {
         lcdClearAll()
         lcdSetBgcolor(0x0000ff)
         while (true) {
-            lcdDisplay.lcdDisplayText("MODULES STATES ", 1, 40, 4, lcdDisplay.FontSize.Large, 0xffffff)
-            lcdDisplay.lcdDisplayText("Outside PB : " + pins.digitalReadPin(DigitalPin.P1), 2, 20, 35, lcdDisplay.FontSize.Small, 0xffffff)
-            lcdDisplay.lcdDisplayText("Inside PB : " + pins.digitalReadPin(DigitalPin.P2), 3, 20, 55, lcdDisplay.FontSize.Small, 0xffffff)
-            lcdDisplay.lcdDisplayText("Opening limit switch : " + pins.digitalReadPin(DigitalPin.P15), 4, 20, 75, lcdDisplay.FontSize.Small, 0xffffff)
-            lcdDisplay.lcdDisplayText("Closing limit switch : " + pins.digitalReadPin(DigitalPin.P14), 5, 20, 95, lcdDisplay.FontSize.Small, 0xffffff)
-            lcdDisplay.lcdDisplayText("MOTA-1 : " + mota1State, 6, 20, 115, lcdDisplay.FontSize.Small, 0xffffff)
-            lcdDisplay.lcdDisplayText("MOTA-2 : " + mota2State, 7, 20, 135, lcdDisplay.FontSize.Small, 0xffffff)
-            lcdDisplay.lcdDisplayText("IR emitter : " + emitterIRState, 8, 20, 155, lcdDisplay.FontSize.Small, 0xffffff)
-            lcdDisplay.lcdDisplayText("IR sensor : " + readDigital(IO.C5), 9, 20, 175, lcdDisplay.FontSize.Small, 0xffffff)
-            lcdDisplay.lcdDisplayText("LED : " + ledState, 10, 20, 195, lcdDisplay.FontSize.Small, 0xffffff)
-            lcdDisplay.lcdDisplayText("PIR sensor : " + pins.digitalReadPin(DigitalPin.P8), 11, 20, 215, lcdDisplay.FontSize.Small, 0xffffff)
+            lcdDisplayText("MODULES STATES ", 1, 40, 4, FontSize.Large, 0xffffff)
+            lcdDisplayText("Outside PB : " + pins.digitalReadPin(DigitalPin.P1), 2, 20, 35, FontSize.Small, 0xffffff)
+            lcdDisplayText("Inside PB : " + pins.digitalReadPin(DigitalPin.P2), 3, 20, 55, FontSize.Small, 0xffffff)
+            lcdDisplayText("Opening limit switch : " + pins.digitalReadPin(DigitalPin.P15), 4, 20, 75, FontSize.Small, 0xffffff)
+            lcdDisplayText("Closing limit switch : " + pins.digitalReadPin(DigitalPin.P14), 5, 20, 95, FontSize.Small, 0xffffff)
+            lcdDisplayText("MOTA-1 : " + mota1State, 6, 20, 115, FontSize.Small, 0xffffff)
+            lcdDisplayText("MOTA-2 : " + mota2State, 7, 20, 135, FontSize.Small, 0xffffff)
+            lcdDisplayText("IR emitter : " + emitterIRState, 8, 20, 155, FontSize.Small, 0xffffff)
+            lcdDisplayText("IR sensor : " + readDigital(IO.C5), 9, 20, 175, FontSize.Small, 0xffffff)
+            lcdDisplayText("LED : " + ledState, 10, 20, 195, FontSize.Small, 0xffffff)
+            lcdDisplayText("PIR sensor : " + pins.digitalReadPin(DigitalPin.P8), 11, 20, 215, FontSize.Small, 0xffffff)
             basic.pause(500)
         }
     }
