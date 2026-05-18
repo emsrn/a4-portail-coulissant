@@ -18,7 +18,8 @@ It provides simple blocks to:
 * detect obstacle presence with IR and PIR sensors
 * read pushed buttons and limit switches modules' states
 * turn on/off the IR emitter and LED 
-* control the gate's opening and closing 
+* control the gate's opening and closing
+* measure current/voltage using a wattmeter 
 
 ### Hardware required 
 * BBC micro:bit 
@@ -34,6 +35,8 @@ It provides simple blocks to:
 * `Turn on/off light`
 * `Open/Close gate`
 * `Motion detected by PIR sensor`
+* `Current/Voltage measurement`
+* `Display all modules states`
 
 ## Example 
 
