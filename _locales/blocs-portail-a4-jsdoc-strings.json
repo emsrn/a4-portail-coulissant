@@ -1,0 +1,5 @@
+{
+  "a4_Gate.current": "Returns current measurement in mA using wattmeter module",
+  "a4_Gate.initWattmeter": "Initialize I2C communication for wattmeter module",
+  "a4_Gate.shuntVoltage": "Returns voltage measurement in mV using wattmeter module"
+}

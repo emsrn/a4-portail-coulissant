@@ -1,0 +1,5 @@
+{
+  "a4_Gate.current": "Retourne mesure de courant en mA en utilisant le module wattmètre",
+  "a4_Gate.initWattmeter": "Initialise le protocole I2C pour le wattmètre",
+  "a4_Gate.shuntVoltage": "Retourne mesure de tension en mV en utilisant le module wattmètre"
+}
