@@ -45,3 +45,9 @@ enum GPIOState {
     //% block="HIGH"
     High = 1
 }
+
+enum FontSize {
+    Small,
+    Middle,
+    Large
+}
