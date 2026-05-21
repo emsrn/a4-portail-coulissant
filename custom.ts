@@ -3,7 +3,7 @@ namespace a4_Gate {
 
     let mota1State = 0
     let mota2State = 0
-    let emitterIRState = 0 
+    let emitterIRState = 0
     let ledState = 0
 
 
@@ -170,22 +170,6 @@ namespace a4_Gate {
     /////// BLOCKS ///////
 
     /**
-     * Returns voltage measurement in mV using wattmeter module
-     */
-    //%block="Voltage measurement"
-    export function shuntVoltage(): number {
-        return readReg16Signed(REG_SHUNT_VOLTAGE) * 0.01
-    }
-
-    /**
-     * Returns current measurement in mA using wattmeter module
-     */
-    //% block="Current measurement"
-    export function current(): number {
-        return readReg16Signed(REG_CURRENT)
-    }
-
-    /**
      * Initialize I2C communication for wattmeter module 
      */
     //%block="Initialize wattmeter I2C"
@@ -204,20 +188,20 @@ namespace a4_Gate {
         if (action == Gate.CW) {      //si choix=ouvrir portail
             digitalWrite(IO.C2, GPIOState.High) //C2 à l'état haut
             digitalWrite(IO.C1, GPIOState.Low) //C1 à l'état bas
-            mota1State=0
-            mota2State=1
+            mota1State = 0
+            mota2State = 1
         }
         if (action == Gate.CCW) {      //si choix=fermer portail
             digitalWrite(IO.C2, GPIOState.Low)
             digitalWrite(IO.C1, GPIOState.High)
-            mota1State=1
-            mota2State=0
+            mota1State = 1
+            mota2State = 0
         }
         if (action == Gate.Stop) {      //si choix=arrêter portail
             digitalWrite(IO.C2, GPIOState.High)
             digitalWrite(IO.C1, GPIOState.High)
-            mota1State=1
-            mota2State=1
+            mota1State = 1
+            mota2State = 1
         }
     }
 
@@ -225,11 +209,11 @@ namespace a4_Gate {
     export function led(state: State) {
         if (state == State.ON) {
             pins.digitalWritePin(DigitalPin.P0, 1) //écrit 1 sur la broche P0 pour allumer la LED 
-            ledState=1
+            ledState = 1
         }
         else if (state == State.OFF) {
             pins.digitalWritePin(DigitalPin.P0, 0) //écrit 0 sur la broche P0 pour éteindre la LED
-            ledState=0
+            ledState = 0
         }
     }
 
@@ -237,11 +221,11 @@ namespace a4_Gate {
     export function emitterIR(state: State) {
         if (state == State.ON) {
             digitalWrite(IO.C4, GPIOState.High) //met à l'état haut la broche C4 pour allumer l'émetteur
-            emitterIRState=1
+            emitterIRState = 1
         }
         else if (state == State.OFF) {
             digitalWrite(IO.C4, GPIOState.Low) //met à l'état bas la broche C4 pour éteindre l'émetteur
-            emitterIRState=0
+            emitterIRState = 0
         }
     }
 
@@ -281,6 +265,19 @@ namespace a4_Gate {
             lcdDisplayText("IR sensor : " + readDigital(IO.C5), 9, 20, 175, FontSize.Small, 0xffffff)
             lcdDisplayText("LED : " + ledState, 10, 20, 195, FontSize.Small, 0xffffff)
             lcdDisplayText("PIR sensor : " + pins.digitalReadPin(DigitalPin.P8), 11, 20, 215, FontSize.Small, 0xffffff)
+            basic.pause(500)
+        }
+    }
+
+
+    //%block="Display shunt voltage and current"
+    export function displayShuntVoltage(){
+    lcdInitIIC()
+    lcdClearAll()
+    lcdSetBgcolor(0x0000ff)
+        while (true){
+            lcdDisplayText((readReg16Signed(REG_SHUNT_VOLTAGE) * 0.01) + "mV", 1, 20, 70, FontSize.Large, 0xffffff)
+            lcdDisplayText((readReg16Signed(REG_CURRENT)) + "mA", 2, 20, 120, FontSize.Large, 0xffffff)
             basic.pause(500)
         }
     }
