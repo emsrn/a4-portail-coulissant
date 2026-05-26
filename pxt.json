@@ -5,6 +5,7 @@
         "core": "*",
         "radio": "*",
         "microphone": "*"
+        "colorScreen": "github:DFRobot/pxt-DFRobot_lcdDisplay"
     },
     "files": [
         "main.blocks",
