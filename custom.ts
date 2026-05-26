@@ -350,28 +350,26 @@ namespace a4_Gate {
 
     /////// BLOCKS ///////
 
-    //%block="Bus Voltage"
+    //%block="Bus Voltage in V"
     //%group='Wattmeter'
     export function getBusVoltageV(): number {
         let value = readUnsignedRegister(REG_BUS_VOLTAGE)
-
-        // Même logique que le Python : valeur >> 1 puis * 0.001
         return (value >> 1) * 0.001
     }
 
-    //%block="Shunt Voltage"
+    //%block="Shunt Voltage in mV"
     //%group='Wattmeter'
     export function getShuntVoltagemV(): number {
         return readRegister(REG_SHUNT_VOLTAGE)
     }
 
-    //%block="Current"
+    //%block="Current in mA"
     //%group='Wattmeter'
     export function getCurrentmA(): number {
         return readRegister(REG_CURRENT)
     }
 
-    //%block="Power"
+    //%block="Power in mW"
     //%group='Wattmeter'
     export function getPowermW(): number {
         return readRegister(REG_POWER) * 20
