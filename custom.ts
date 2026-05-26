@@ -36,33 +36,213 @@ namespace a4_Gate {
 
     /////// FUNCTIONS FOR WATTMETER ///////
 
-    export const ADDR = 0x45
+    // Adresses I2C possibles
+    export enum I2CAddress {
+        ADDR_0x40 = 0x40,
+        ADDR_0x41 = 0x41,
+        ADDR_0x44 = 0x44,
+        ADDR_0x45 = 0x45
+    }
 
+    // Registres INA219
     const REG_CONFIG = 0x00
     const REG_SHUNT_VOLTAGE = 0x01
+    const REG_BUS_VOLTAGE = 0x02
+    const REG_POWER = 0x03
     const REG_CURRENT = 0x04
     const REG_CALIBRATION = 0x05
 
-    function writeReg16(reg: number, value: number): void {
+    const CONFIG_RESET = 0x8000
+
+    // Bus voltage range
+    export enum BusVoltageRange {
+        RANGE_16V = 0,
+        RANGE_32V = 1
+    }
+
+    // PGA - Shunt voltage range
+    export enum PGABits {
+        PGA_1 = 0, // ±40 mV
+        PGA_2 = 1, // ±80 mV
+        PGA_4 = 2, // ±160 mV
+        PGA_8 = 3  // ±320 mV
+    }
+
+    // ADC resolution
+    export enum ADCBits {
+        ADC_9BIT = 0,
+        ADC_10BIT = 1,
+        ADC_11BIT = 2,
+        ADC_12BIT = 3
+    }
+
+    // ADC sample size
+    export enum ADCSample {
+        SAMPLE_1 = 0,
+        SAMPLE_2 = 1,
+        SAMPLE_4 = 2,
+        SAMPLE_8 = 3,
+        SAMPLE_16 = 4,
+        SAMPLE_32 = 5,
+        SAMPLE_64 = 6,
+        SAMPLE_128 = 7
+    }
+
+    // Mode de fonctionnement
+    export enum Mode {
+        POWER_DOWN = 0,
+        SHUNT_VOLT_TRIGGERED = 1,
+        BUS_VOLT_TRIGGERED = 2,
+        SHUNT_AND_BUS_TRIGGERED = 3,
+        ADC_OFF = 4,
+        SHUNT_VOLT_CONTINUOUS = 5,
+        BUS_VOLT_CONTINUOUS = 6,
+        SHUNT_AND_BUS_CONTINUOUS = 7
+    }
+
+    let i2cAddr = I2CAddress.ADDR_0x45
+    let calValue = 4096
+
+    function writeRegister(register: number, value: number): void {
         let buf = pins.createBuffer(3)
-        buf[0] = reg
-        buf[1] = (value >> 8) & 0xFF
-        buf[2] = value & 0xFF
-        pins.i2cWriteBuffer(ADDR, buf, false)
+        buf[0] = register
+        buf[1] = (value >> 8) & 0xff
+        buf[2] = value & 0xff
+        pins.i2cWriteBuffer(i2cAddr, buf)
     }
 
-    function readReg16Unsigned(reg: number): number {
-        pins.i2cWriteNumber(ADDR, reg, NumberFormat.UInt8BE, true)
-        let buf = pins.i2cReadBuffer(ADDR, 2, false)
-        return (buf[0] << 8) | buf[1]
+    function readRegister(register: number): number {
+        pins.i2cWriteNumber(i2cAddr, register, NumberFormat.UInt8BE, false)
+        let value = pins.i2cReadNumber(i2cAddr, NumberFormat.UInt16BE, false)
+
+        // Conversion en entier signé 16 bits
+        if (value & 0x8000) {
+            value = value - 0x10000
+        }
+
+        return value
     }
 
-    function readReg16Signed(reg: number): number {
-        let v = readReg16Unsigned(reg)
-        if (v > 0x7FFF) v = v - 0x10000
-        return v
+    function readUnsignedRegister(register: number): number {
+        pins.i2cWriteNumber(i2cAddr, register, NumberFormat.UInt8BE, false)
+        return pins.i2cReadNumber(i2cAddr, NumberFormat.UInt16BE, false)
     }
 
+    export function scan(addr: I2CAddress = I2CAddress.ADDR_0x45): boolean {
+        i2cAddr = addr
+
+        try {
+            pins.i2cWriteNumber(i2cAddr, 0x00, NumberFormat.UInt8BE, false)
+            return true
+        } catch (e) {
+            return false
+        }
+    }
+
+    export function begin(addr: I2CAddress = I2CAddress.ADDR_0x45): boolean {
+        i2cAddr = addr
+
+        if (!scan(addr)) {
+            return false
+        }
+
+        calValue = 4096
+
+        setBusRange(BusVoltageRange.RANGE_32V)
+        setPGA(PGABits.PGA_8)
+        setBusADC(ADCBits.ADC_12BIT, ADCSample.SAMPLE_8)
+        setShuntADC(ADCBits.ADC_12BIT, ADCSample.SAMPLE_8)
+        setMode(Mode.SHUNT_AND_BUS_CONTINUOUS)
+
+        writeRegister(REG_CALIBRATION, calValue)
+
+        return true
+    }
+
+    export function reset(): void {
+        writeRegister(REG_CONFIG, CONFIG_RESET)
+        basic.pause(10)
+    }
+
+    export function linearCal(ina219ReadingmA: number, extMeterReadingmA: number): void {
+        if (ina219ReadingmA == 0) {
+            return
+        }
+
+        calValue = Math.idiv(extMeterReadingmA * calValue, ina219ReadingmA)
+        calValue = calValue & 0xfffe
+
+        writeRegister(REG_CALIBRATION, calValue)
+    }
+
+    export function setBusRange(value: BusVoltageRange): void {
+        let conf = readUnsignedRegister(REG_CONFIG)
+
+        conf &= ~(0x01 << 13)
+        conf |= value << 13
+
+        writeRegister(REG_CONFIG, conf)
+    }
+
+    export function setPGA(bits: PGABits): void {
+        let conf = readUnsignedRegister(REG_CONFIG)
+
+        conf &= ~(0x03 << 11)
+        conf |= bits << 11
+
+        writeRegister(REG_CONFIG, conf)
+    }
+
+    export function setBusADC(bits: ADCBits, sample: ADCSample): void {
+        let value = 0
+
+        if (bits < ADCBits.ADC_12BIT && sample > ADCSample.SAMPLE_1) {
+            return
+        }
+
+        if (bits < ADCBits.ADC_12BIT) {
+            value = bits
+        } else {
+            value = 0x80 | sample
+        }
+
+        let conf = readUnsignedRegister(REG_CONFIG)
+
+        conf &= ~(0x0f << 7)
+        conf |= value << 7
+
+        writeRegister(REG_CONFIG, conf)
+    }
+
+    export function setShuntADC(bits: ADCBits, sample: ADCSample): void {
+        let value = 0
+
+        if (bits < ADCBits.ADC_12BIT && sample > ADCSample.SAMPLE_1) {
+            return
+        }
+
+        if (bits < ADCBits.ADC_12BIT) {
+            value = bits
+        } else {
+            value = 0x80 | sample
+        }
+
+        let conf = readUnsignedRegister(REG_CONFIG)
+
+        conf &= ~(0x0f << 3)
+        conf |= value << 3
+
+        writeRegister(REG_CONFIG, conf)
+    }
+
+    export function setMode(mode: Mode): void {
+        let conf = readUnsignedRegister(REG_CONFIG)
+
+        conf &= ~0x07
+        conf |= mode
+
+        writeRegister(REG_CONFIG, conf)
+    }
     /////// FUNCTIONS FOR LCD DISPLAY ///////
 
     const IIC_MAX_TRANSFER_SIZE = 32;
@@ -169,31 +349,29 @@ namespace a4_Gate {
 
     /////// BLOCKS ///////
 
-    /**
-     * Initialize I2C communication for wattmeter module 
-     */
-    //%block="Initialize wattmeter I2C"
-    export function initWattmeter(): void {
-        writeReg16(REG_CONFIG, 0x3C1F)
-        writeReg16(REG_CALIBRATION, 4096)
+    //%block="Get Bus Voltage"
+    export function getBusVoltageV(): number {
+        let value = readUnsignedRegister(REG_BUS_VOLTAGE)
+
+        // Même logique que le Python : valeur >> 1 puis * 0.001
+        return (value >> 1) * 0.001
     }
 
-     /**
-     * Returns voltage measurement in mV using wattmeter module
-     */
-    //%block="Voltage measurement"
-    export function shuntVoltage(): number {
-        return readReg16Signed(REG_SHUNT_VOLTAGE) * 0.01
+    //%block="Get Shunt Voltage"
+    export function getShuntVoltagemV(): number {
+        return readRegister(REG_SHUNT_VOLTAGE)
     }
 
-    /**
-     * Returns current measurement in mA using wattmeter module
-     */
-    //% block="Current measurement"
-    export function current(): number {
-        return readReg16Signed(REG_CURRENT)
+    //%block="Get Current"
+    export function getCurrentmA(): number {
+        return readRegister(REG_CURRENT)
     }
 
+    //%block="Get Power"
+    export function getPowermW(): number {
+        return readRegister(REG_POWER) * 20
+    }
+    
     //%block="Motion detected by PIR sensor"
     export function pirSensor(): boolean {
         return pins.digitalReadPin(DigitalPin.P8) == 1 //renvoie Vrai si le capteur détecte une présence 
