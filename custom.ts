@@ -178,6 +178,22 @@ namespace a4_Gate {
         writeReg16(REG_CALIBRATION, 4096)
     }
 
+     /**
+     * Returns voltage measurement in mV using wattmeter module
+     */
+    //%block="Voltage measurement"
+    export function shuntVoltage(): number {
+        return readReg16Signed(REG_SHUNT_VOLTAGE) * 0.01
+    }
+
+    /**
+     * Returns current measurement in mA using wattmeter module
+     */
+    //% block="Current measurement"
+    export function current(): number {
+        return readReg16Signed(REG_CURRENT)
+    }
+
     //%block="Motion detected by PIR sensor"
     export function pirSensor(): boolean {
         return pins.digitalReadPin(DigitalPin.P8) == 1 //renvoie Vrai si le capteur détecte une présence 
@@ -265,19 +281,6 @@ namespace a4_Gate {
             lcdDisplayText("IR sensor : " + readDigital(IO.C5), 9, 20, 175, FontSize.Small, 0xffffff)
             lcdDisplayText("LED : " + ledState, 10, 20, 195, FontSize.Small, 0xffffff)
             lcdDisplayText("PIR sensor : " + pins.digitalReadPin(DigitalPin.P8), 11, 20, 215, FontSize.Small, 0xffffff)
-            basic.pause(500)
-        }
-    }
-
-
-    //%block="Display shunt voltage and current"
-    export function displayShuntVoltage(){
-    lcdInitIIC()
-    lcdClearAll()
-    lcdSetBgcolor(0x0000ff)
-        while (true){
-            lcdDisplayText((readReg16Signed(REG_SHUNT_VOLTAGE) * 0.01) + "mV", 1, 20, 70, FontSize.Large, 0xffffff)
-            lcdDisplayText((readReg16Signed(REG_CURRENT)) + "mA", 2, 20, 120, FontSize.Large, 0xffffff)
             basic.pause(500)
         }
     }
