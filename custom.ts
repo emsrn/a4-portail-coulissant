@@ -443,7 +443,7 @@ namespace a4_Gate {
     export function sensorState(fc: LimitSwitch) {
         //affecte à une cte le pin correspondant au BP sélectionné par l'utilisateur
         let pin = (fc == LimitSwitch.Opening) ? DigitalPin.P15 : DigitalPin.P14
-        return pins.digitalReadPin(pin) == 1 //renvoie Vrai si le BP est appuyé 
+        return pins.digitalReadPin(pin) == 1 //renvoie Vrai si le capteur est appuyé 
     }
 
     //%block="Obstacle detected by IR sensor"
