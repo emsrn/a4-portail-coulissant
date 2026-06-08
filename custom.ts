@@ -351,7 +351,8 @@ namespace a4_Gate {
     /////// BLOCKS ///////
 
     //%block="Init wattmeter"
-    function initWattmeter(){
+    //%group='Wattmeter'
+    export function initWattmeter(){
         begin()
     }
 
