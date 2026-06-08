@@ -353,7 +353,6 @@ namespace a4_Gate {
     //%block="Bus Voltage in V"
     //%group='Wattmeter'
     export function getBusVoltageV(): number {
-        begin() 
         let value = readUnsignedRegister(REG_BUS_VOLTAGE)
         return (value >> 1) * 0.001
     }
