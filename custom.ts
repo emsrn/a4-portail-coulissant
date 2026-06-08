@@ -350,6 +350,11 @@ namespace a4_Gate {
 
     /////// BLOCKS ///////
 
+    //%block="Init wattmeter"
+    function initWattmeter{
+        begin()
+    }
+
     //%block="Bus Voltage in V"
     //%group='Wattmeter'
     export function getBusVoltageV(): number {
