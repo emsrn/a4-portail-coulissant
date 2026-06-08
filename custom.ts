@@ -385,20 +385,20 @@ namespace a4_Gate {
     //%group='Modules'
     export function gate(action: Gate) {
         if (action == Gate.CW) {      //si choix=ouvrir portail
-            digitalWrite(IO.C2, GPIOState.High) //C2 à l'état haut
-            digitalWrite(IO.C1, GPIOState.Low) //C1 à l'état bas
-            mota1State = 0
-            mota2State = 1
-        }
-        if (action == Gate.CCW) {      //si choix=fermer portail
-            digitalWrite(IO.C2, GPIOState.Low)
-            digitalWrite(IO.C1, GPIOState.High)
+            digitalWrite(IO.C1, GPIOState.High) //C1 à l'état haut
+            digitalWrite(IO.C2, GPIOState.Low) //C2 à l'état bas
             mota1State = 1
             mota2State = 0
         }
-        if (action == Gate.Stop) {      //si choix=arrêter portail
+        if (action == Gate.CCW) {      //si choix=fermer portail
+            digitalWrite(IO.C1, GPIOState.Low)
             digitalWrite(IO.C2, GPIOState.High)
+            mota1State = 0
+            mota2State = 1
+        }
+        if (action == Gate.Stop) {      //si choix=arrêter portail
             digitalWrite(IO.C1, GPIOState.High)
+            digitalWrite(IO.C2, GPIOState.High)
             mota1State = 1
             mota2State = 1
         }
