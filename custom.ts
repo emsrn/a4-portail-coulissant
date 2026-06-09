@@ -60,8 +60,6 @@ namespace a4_Gate {
     const REG_CURRENT = 0x04
     const REG_CALIBRATION = 0x05
 
-    const CONFIG_RESET = 0x8000
-
     // Bus voltage range
     export enum BusVoltageRange {
         RANGE_16V = 0,
@@ -167,11 +165,6 @@ namespace a4_Gate {
         return true
     }
 
-    export function reset(): void {
-        writeRegister(REG_CONFIG, CONFIG_RESET)
-        basic.pause(10)
-    }
-
     export function linearCal(ina219ReadingmA: number, extMeterReadingmA: number): void {
         if (ina219ReadingmA == 0) {
             return
@@ -272,17 +265,6 @@ namespace a4_Gate {
         return [(data >> 16) & 0xFF, (data >> 8) & 0xFF, data & 0xFF];
     }
 
-    function colorToCustom(color: number): number {
-        switch (color) {
-            case 0x999999:
-                return 0x696969;
-            case 0x7f00ff:
-                return 0x800080;
-            default:
-                return color;
-        }
-    }
-
     function creatCommand(cmd: number, len: number): number[] {
         return [CMD_HEADER_HIGH, CMD_HEADER_LOW, len - CMDLEN_OF_HEAD_LEN, cmd];
     }
@@ -313,14 +295,6 @@ namespace a4_Gate {
         cmd = cmd.concat(data24Tobyte(color));
         writeCommand(cmd, CMD_SET_LEN);
         basic.pause(300);
-    }
-
-    function lcdSetBgcolor(color: number) {
-        setBackgroundColor(colorToCustom(color));
-    }
-
-    function lcdInitIIC() {
-        basic.pause(1000)
     }
 
     function lcdClearAll() {
@@ -466,9 +440,9 @@ namespace a4_Gate {
     //%block="Display all modules states" 
     //%group='Debugging'
     export function displayModulesStates() {
-        lcdInitIIC()
-        lcdClearAll()
-        lcdSetBgcolor(0x0000ff)
+        basic.pause(1000)
+        cleanScreen()
+        setBackgroundColor(0x0000ff)
         while (true) {
             lcdDisplayText("MODULES STATES ", 1, 40, 4, FontSize.Large, 0xffffff)
             lcdDisplayText("Outside PB : " + pins.digitalReadPin(DigitalPin.P1), 2, 20, 35, FontSize.Small, 0xffffff)
