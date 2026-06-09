@@ -37,6 +37,13 @@ namespace a4_Gate {
 
     /////// FUNCTIONS FOR WATTMETER ///////
 
+    let wattmeterInitialized = false
+    function ensureWattmeterInitialized(): void {
+        if (!wattmeterInitialized) {
+            wattmeterInitialized = begin(i2cAddr)
+        }
+    }
+
     // Adresses I2C possibles
     export enum I2CAddress {
         ADDR_0x40 = 0x40,
@@ -353,6 +360,7 @@ namespace a4_Gate {
     //%block="Bus Voltage in V"
     //%group='Wattmeter'
     export function getBusVoltageV(): number {
+        ensureWattmeterInitialized()
         let value = readUnsignedRegister(REG_BUS_VOLTAGE)
         return (value >> 1) * 0.001
     }
@@ -360,21 +368,24 @@ namespace a4_Gate {
     //%block="Shunt Voltage in mV"
     //%group='Wattmeter'
     export function getShuntVoltagemV(): number {
+        ensureWattmeterInitialized()
         return readRegister(REG_SHUNT_VOLTAGE)
     }
 
     //%block="Current in mA"
     //%group='Wattmeter'
     export function getCurrentmA(): number {
+        ensureWattmeterInitialized()
         return readRegister(REG_CURRENT)
     }
 
     //%block="Power in mW"
     //%group='Wattmeter'
     export function getPowermW(): number {
+        ensureWattmeterInitialized()
         return readRegister(REG_POWER) * 20
     }
-    
+
     //%block="Motion detected by PIR sensor"
     //%group='Modules'
     export function pirSensor(): boolean {
