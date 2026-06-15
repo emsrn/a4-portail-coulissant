@@ -331,13 +331,6 @@ namespace a4_Gate {
 
     /////// BLOCKS ///////
 
-    //% block="battery level (\\%)"
-    //% group="Debugging"
-    export function getBattery(): number {
-        basic.pause(500)
-        return readReg(0x87, 1)[0]
-    }
-
     //%block="bus voltage in V"
     //%group='Wattmeter'
     export function getBusVoltageV(): number {
@@ -464,6 +457,13 @@ namespace a4_Gate {
             lcdDisplayText("PIR sensor : " + pins.digitalReadPin(DigitalPin.P8), 11, 20, 215, FontSize.Small, 0xffffff)
             basic.pause(500)
         }
+    }
+
+        //% block="battery level (\\%)"
+    //% group="Debugging"
+    export function getBattery(): number {
+        basic.pause(500)
+        return readReg(0x87, 1)[0]
     }
 
 
