@@ -343,16 +343,6 @@ namespace a4_Gate {
     }
 
     /**
-     * Get shunt voltage value using wattmeter module
-     */
-    //%block="shunt voltage in mV"
-    //%group='Wattmeter'
-    export function getShuntVoltagemV(): number {
-        ensureWattmeterInitialized()
-        return readRegister(REG_SHUNT_VOLTAGE)
-    }
-
-    /**
      * Get current value using wattmeter module
      */
     //%block="current in mA"
