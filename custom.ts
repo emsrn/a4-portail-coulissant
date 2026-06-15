@@ -331,7 +331,14 @@ namespace a4_Gate {
 
     /////// BLOCKS ///////
 
-    //%block="Bus Voltage in V"
+    //% block="battery level (\\%)"
+    //% group="Debugging"
+    export function getBattery(): number {
+        basic.pause(500)
+        return readReg(0x87, 1)[0]
+    }
+
+    //%block="bus voltage in V"
     //%group='Wattmeter'
     export function getBusVoltageV(): number {
         ensureWattmeterInitialized()
@@ -339,28 +346,28 @@ namespace a4_Gate {
         return (value >> 1) * 0.001
     }
 
-    //%block="Shunt Voltage in mV"
+    //%block="shunt voltage in mV"
     //%group='Wattmeter'
     export function getShuntVoltagemV(): number {
         ensureWattmeterInitialized()
         return readRegister(REG_SHUNT_VOLTAGE)
     }
 
-    //%block="Current in mA"
+    //%block="current in mA"
     //%group='Wattmeter'
     export function getCurrentmA(): number {
         ensureWattmeterInitialized()
         return readRegister(REG_CURRENT)
     }
 
-    //%block="Power in mW"
+    //%block="power in mW"
     //%group='Wattmeter'
     export function getPowermW(): number {
         ensureWattmeterInitialized()
         return readRegister(REG_POWER) * 20
     }
 
-    //%block="Motion detected by PIR sensor"
+    //%block="motion detected by PIR sensor"
     //%group='Modules'
     export function pirSensor(): boolean {
         return pins.digitalReadPin(DigitalPin.P8) == 1 //renvoie Vrai si le capteur détecte une présence 
@@ -431,13 +438,13 @@ namespace a4_Gate {
         return pins.digitalReadPin(pin) == 1 //renvoie Vrai si le capteur est appuyé 
     }
 
-    //%block="Obstacle detected by IR sensor"
+    //%block="obstacle detected by IR sensor"
     //%group='Modules'
     export function irDetection() {
         return readDigital(IO.C5) == 1 //renvoie Vrai si le récepteur ne reçoit plus d'IR 
     }
 
-    //%block="Display all modules states" 
+    //%block="display all modules states" 
     //%group='Debugging'
     export function displayModulesStates() {
         basic.pause(1000)
