@@ -331,6 +331,9 @@ namespace a4_Gate {
 
     /////// BLOCKS ///////
 
+    /**
+     * Get bus voltage value using wattmeter module
+     */
     //%block="bus voltage in V"
     //%group='Wattmeter'
     export function getBusVoltageV(): number {
@@ -339,6 +342,9 @@ namespace a4_Gate {
         return (value >> 1) * 0.001
     }
 
+    /**
+     * Get shunt voltage value using wattmeter module
+     */
     //%block="shunt voltage in mV"
     //%group='Wattmeter'
     export function getShuntVoltagemV(): number {
@@ -346,6 +352,9 @@ namespace a4_Gate {
         return readRegister(REG_SHUNT_VOLTAGE)
     }
 
+    /**
+     * Get current value using wattmeter module
+     */
     //%block="current in mA"
     //%group='Wattmeter'
     export function getCurrentmA(): number {
@@ -353,6 +362,9 @@ namespace a4_Gate {
         return readRegister(REG_CURRENT)
     }
 
+    /**
+     * Get power value using wattmeter module
+     */
     //%block="power in mW"
     //%group='Wattmeter'
     export function getPowermW(): number {
@@ -360,12 +372,19 @@ namespace a4_Gate {
         return readRegister(REG_POWER) * 20
     }
 
+    /**
+     * Read PIR sensor pin and return 1 or 0
+     */
     //%block="motion detected by PIR sensor"
     //%group='Modules'
     export function pirSensor(): boolean {
         return pins.digitalReadPin(DigitalPin.P8) == 1 //renvoie Vrai si le capteur détecte une présence 
     }
 
+    /**
+     * Control the gate
+     * @param action control dc motor (on or off) and direction of rotation, which sets the gate's action
+     */
     //% block="%action gate"
     //%group='Modules'
     export function gate(action: Gate) {
@@ -389,6 +408,9 @@ namespace a4_Gate {
         }
     }
 
+    /**
+     * Read the LED pin and return 1 or 0
+     */
     //% block="%state light"
     //%group='Modules'
     export function led(state: State) {
@@ -402,6 +424,9 @@ namespace a4_Gate {
         }
     }
 
+    /**
+     * Read the IR emitter pin and return 1 or 0
+     */
     //% block="%state IR emitter"
     //%group='Modules'
     export function emitterIR(state: State) {
@@ -415,6 +440,10 @@ namespace a4_Gate {
         }
     }
 
+    /**
+     * Read chosen button pin and return 1 or 0
+     * @param loc chosen button's location 
+     */
     //%block="%loc button pressed"
     //%group='Modules'
     export function buttonStateBoolean(loc: ButtonLocation) {
@@ -423,6 +452,10 @@ namespace a4_Gate {
         return pins.digitalReadPin(pin) == 1 //renvoie Vrai si le BP est appuyé 
     }
 
+    /**
+     * Read chosen limit switch pin and return 1 or 0
+     * @param fc chosen limit switch's 
+     */
     //%block="%fc limit switch on" 
     //%group='Modules'
     export function sensorState(fc: LimitSwitch) {
@@ -431,12 +464,20 @@ namespace a4_Gate {
         return pins.digitalReadPin(pin) == 1 //renvoie Vrai si le capteur est appuyé 
     }
 
+    /**
+     * Read chosen limit switch pin and return 1 or 0
+     * @param fc chosen limit switch's
+     */
     //%block="obstacle detected by IR sensor"
     //%group='Modules'
     export function irDetection() {
         return readDigital(IO.C5) == 1 //renvoie Vrai si le récepteur ne reçoit plus d'IR 
     }
 
+    /**
+     * Display all gate model's modules' states on the LCD screen 
+     * @param fc chosen limit switch's
+     */
     //%block="display all modules states" 
     //%group='Debugging'
     export function displayModulesStates() {
@@ -459,7 +500,11 @@ namespace a4_Gate {
         }
     }
 
-        //% block="battery level (\\%)"
+    /**
+     * Return DFR1216's battery level in percentage 
+     * @param fc chosen limit switch's
+     */
+    //% block="battery level (\\%)"
     //% group="Debugging"
     export function getBattery(): number {
         basic.pause(500)
