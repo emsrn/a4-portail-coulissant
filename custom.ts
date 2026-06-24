@@ -466,7 +466,6 @@ namespace a4_Gate {
 
     /**
      * Display all gate model's modules' states on the LCD screen 
-     * @param fc chosen limit switch's
      */
     //%block="display all modules states" 
     //%group='Debugging'
