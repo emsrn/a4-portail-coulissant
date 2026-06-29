@@ -10,7 +10,7 @@
   "LimitSwitch.Opening|block": "Ouverture",
   "State.OFF|block": "Désativer",
   "State.ON|block": "Activer",
-  "a4_Gate.buttonStateBoolean|block": "Boutton %loc appuyé ",
+  "a4_Gate.buttonStateBoolean|block": "Bouton %loc appuyé ",
   "a4_Gate.current|block": "Mesure de courant",
   "a4_Gate.displayModulesStates|block": "Afficher l'état de tous les modules",
   "a4_Gate.emitterIR|block": "%state émetteur IR",
