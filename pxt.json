@@ -14,9 +14,9 @@
         "custom.ts",
         "enums.ts",
         "_locales/fr/a4-portail-coulissant-jsdoc-strings.json",
-        "_locales/fr/a4-portail-coulissant-a4-strings.json",
-        "_locales/a4-portail-coulissant-a4-jsdoc-strings.json",
-        "_locales/a4-portail-coulissant-a4-strings.json"
+        "_locales/fr/a4-portail-coulissant-strings.json",
+        "_locales/a4-portail-coulissant-jsdoc-strings.json",
+        "_locales/a4-portail-coulissant-strings.json"
     ],
     "testFiles": [
         "test.ts"
