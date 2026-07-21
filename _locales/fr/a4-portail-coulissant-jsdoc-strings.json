@@ -1,5 +1,5 @@
 {
-  "a4_Gate.buttonStateBoolean": "Lit la broche du bouton choisi et retourne 1 ou 0",
+  "a4_Gate.buttonStateBoolean": "lit la broche du bouton choisi et retourne 1 ou 0",
   "a4_Gate.buttonStateBoolean|param|loc": "localisation du bouton choisi ",
   "a4_Gate.displayModulesStates": "affiche l'état de tous les modules de la maquette sur l'écran LCD",
   "a4_Gate.emitterIR": "active ou désactive l'émetteur IR",
