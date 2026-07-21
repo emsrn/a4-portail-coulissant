@@ -333,37 +333,6 @@ namespace a4_Gate {
     /////// BLOCKS ///////
 
     /**
-     * Get bus voltage value using wattmeter module
-     */
-    //%block="bus voltage in V"
-    //%group='Wattmeter'
-    export function getBusVoltageV(): number {
-        ensureWattmeterInitialized()
-        let value = readUnsignedRegister(REG_BUS_VOLTAGE)
-        return (value >> 3) * 0.004
-    }
-
-    /**
-     * Get current value using wattmeter module
-     */
-    //%block="current in mA"
-    //%group='Wattmeter'
-    export function getCurrentmA(): number {
-        ensureWattmeterInitialized()
-        return readRegister(REG_CURRENT)
-    }
-
-    /**
-     * Get power value using wattmeter module
-     */
-    //%block="power in mW"
-    //%group='Wattmeter'
-    export function getPowermW(): number {
-        ensureWattmeterInitialized()
-        return readRegister(REG_POWER) * 20
-    }
-
-    /**
      * Read PIR sensor pin and return 1 or 0
      */
     //%block="motion detected by PIR sensor"
