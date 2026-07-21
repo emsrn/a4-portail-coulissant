@@ -1,5 +1,5 @@
 {
-    "name": "blocs-portail-a4",
+    "name": "a4-portail-coulissant",
     "description": "",
     "dependencies": {
         "core": "*",
@@ -13,10 +13,10 @@
         "README.md",
         "custom.ts",
         "enums.ts",
-        "_locales/fr/blocs-portail-a4-jsdoc-strings.json",
-        "_locales/fr/blocs-portail-a4-strings.json",
-        "_locales/blocs-portail-a4-jsdoc-strings.json",
-        "_locales/blocs-portail-a4-strings.json"
+        "_locales/fr/a4-portail-coulissant-jsdoc-strings.json",
+        "_locales/fr/a4-portail-coulissant-a4-strings.json",
+        "_locales/a4-portail-coulissant-a4-jsdoc-strings.json",
+        "_locales/a4-portail-coulissant-a4-strings.json"
     ],
     "testFiles": [
         "test.ts"
