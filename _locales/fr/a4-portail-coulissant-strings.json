@@ -22,7 +22,7 @@
   "a4_Gate.led|block": "%state signal lumineux",
   "a4_Gate.pirSensor|block": "présence détectée par le capteur PIR",
   "a4_Gate.sensorState|block": "capteur de fin de course %fc activé",
-  "a4_Gate|block": "A4 Gate",
+  "a4_Gate|block": "A4 Portail",
   "{id:group}Debugging": "Debuggage",
   "{id:group}Modules": "Modules"
 }
