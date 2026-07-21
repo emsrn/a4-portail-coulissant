@@ -1,0 +1,14 @@
+{
+  "a4_Gate.buttonStateBoolean": "Reads chosen button pin and returns 1 or 0",
+  "a4_Gate.buttonStateBoolean|param|loc": "chosen button's location ",
+  "a4_Gate.displayModulesStates": "Displays all gate model's modules' states on the LCD screen",
+  "a4_Gate.emitterIR": "Reads the IR emitter pin and returns 1 or 0",
+  "a4_Gate.gate": "Controls the gate",
+  "a4_Gate.gate|param|action": "controls dc motor (on or off) and direction of rotation, which sets the gate's action",
+  "a4_Gate.getBattery": "Returns DFR1216's battery level in percentage",
+  "a4_Gate.irDetection": "Reads IR sensor's prin and returns 1 or 0",
+  "a4_Gate.led": "Reads the LED pin and returns 1 or 0",
+  "a4_Gate.pirSensor": "Reads PIR sensor pin and returns 1 or 0",
+  "a4_Gate.sensorState": "Reads chosen limit switch pin and returns 1 or 0",
+  "a4_Gate.sensorState|param|fc": "chosen limit switch "
+}

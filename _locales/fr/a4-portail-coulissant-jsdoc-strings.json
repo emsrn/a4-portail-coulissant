@@ -1,0 +1,14 @@
+{
+  "a4_Gate.buttonStateBoolean": "Lit la broche du bouton choisi et retourne 1 ou 0",
+  "a4_Gate.buttonStateBoolean|param|loc": "localisation du bouton choisi ",
+  "a4_Gate.displayModulesStates": "affiche l'état de tous les modules de la maquette sur l'écran LCD",
+  "a4_Gate.emitterIR": "active ou désactive l'émetteur IR",
+  "a4_Gate.gate": "permet de contrôler l'ouverture de la barrière",
+  "a4_Gate.gate|param|action": "controle le moteur (activé ou désactivé) et sa direction de rotation, ce qui fixe le sens de mouvement de la barrière",
+  "a4_Gate.getBattery": "renvoie le niveau de la batterie de la carte DFR1216 en pourcentage",
+  "a4_Gate.irDetection": "lit la broche du capteur IR et renvoie 1 ou 0",
+  "a4_Gate.led": "lit la broche de la LED et renvoie 1 ou 0",
+  "a4_Gate.pirSensor": "lit la broche du capteur PIR et renvoie 1 ou 0",
+  "a4_Gate.sensorState": "lit la broche du capteur de fin de course sélectionné et renvoie 1 ou 0",
+  "a4_Gate.sensorState|param|fc": "capteur de fin de course choisi"
+}
