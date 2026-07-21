@@ -1,5 +1,6 @@
 //% weight=100 color=#6473E3 icon="\uf085"
 //%groups="['Modules', 'Wattmeter', 'Debugging']
+//%block="A4 Gate"
 namespace a4_Gate {
 
     let mota1State = 0
